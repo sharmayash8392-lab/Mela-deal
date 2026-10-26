@@ -1,171 +1,144 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#7028e4">
-<meta name="description" content="Mela Deals online shopping store">
-<title>Mela Deals - Online Shopping</title>
-
+<meta name="theme-color" content="#7c3aed">
+<title>Mela Deals</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f7f6fb;color:#24202d}
-header{background:#fff;padding:16px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px #0001}
-.brand{font-size:26px;font-weight:800;color:#7028e4}
-.tag{font-size:12px;color:#777;margin-top:4px}
-.search{width:100%;padding:13px;margin-top:14px;border:1px solid #ddd;border-radius:12px;font-size:16px}
-button{cursor:pointer;border:0;border-radius:9px;padding:11px 14px;font-weight:bold}
-.cart{float:right;background:#eee5ff;color:#7028e4}
-.hero{margin:16px;padding:24px 20px;border-radius:20px;background:linear-gradient(135deg,#7028e4,#e94e9b);color:white}
-.hero h1{font-size:28px;margin:0 0 10px}
-.hero p{line-height:1.5}
-.primary{background:#fff;color:#7028e4}
-.section{padding:6px 16px 18px}
-.categories{display:flex;gap:10px;overflow:auto}
-.category{min-width:95px;background:white;padding:14px 10px;border-radius:13px;text-align:center;border:1px solid #eee}
-.category span{display:block;font-size:26px;margin-bottom:8px}
-.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.product{background:white;border-radius:14px;overflow:hidden;border:1px solid #eee;padding-bottom:12px}
-.photo{height:125px;display:grid;place-items:center;font-size:54px;background:#eee5ff}
-.product:nth-child(4n+2) .photo{background:#ffe5ed}
-.product:nth-child(4n+3) .photo{background:#e0f5e8}
-.product:nth-child(4n) .photo{background:#fff0d7}
-.product h3{font-size:14px;margin:12px 10px 7px}
-.price{margin:0 10px 10px;font-weight:bold}
-.add{margin:0 10px;width:calc(100% - 20px);background:#7028e4;color:white}
-footer{text-align:center;padding:24px;color:#777;font-size:13px}
-#cartPanel{display:none;background:white;padding:16px;margin:16px;border-radius:14px}
-.small{font-size:12px;color:#777;line-height:1.5}
+body{margin:0;font-family:Arial,sans-serif;background:#f7f5fb;color:#251b35}
+header{background:white;padding:15px;position:sticky;top:0;z-index:2;box-shadow:0 2px 8px #ddd}
+.top{display:flex;justify-content:space-between;align-items:center;max-width:1000px;margin:auto}
+.logo{font-size:24px;font-weight:bold;color:#7c3aed}
+button{cursor:pointer}
+.cartbtn{background:#7c3aed;color:white;border:0;border-radius:10px;padding:11px}
+main{max-width:1000px;margin:auto;padding:16px}
+.hero{padding:24px;border-radius:18px;color:white;background:linear-gradient(120deg,#6d28d9,#c084fc)}
+.hero h1{margin:0 0 8px}
+.searchrow{display:flex;gap:8px;margin:18px 0}
+#search{width:100%;min-width:0;padding:13px;border:1px solid #ddd;border-radius:10px;font-size:16px}
+#clear{border:0;border-radius:10px;padding:10px;background:#e9ddff;color:#4c1d95}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:8px 0 14px}
+.cat{white-space:nowrap;border:1px solid #ddd;border-radius:22px;padding:10px 14px;background:white}
+.cat.active{background:#7c3aed;color:white}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border:1px solid #eee;border-radius:14px;overflow:hidden}
+.photo{height:145px;background:#eee5ff;display:flex;align-items:center;justify-content:center}
+.photo img{width:100%;height:100%;object-fit:cover}
+.fallback{font-size:52px}
+.info{padding:11px}
+.name{font-weight:bold;min-height:36px;line-height:1.3}
+.category{color:#777;font-size:12px;margin:6px 0}
+.price{font-weight:bold;color:#7c3aed;font-size:18px}
+.old{color:#888;text-decoration:line-through;font-size:12px;margin-left:5px}
+.add{width:100%;padding:10px;margin-top:10px;border:0;border-radius:9px;background:#eee5ff;color:#5b21b6;font-weight:bold}
+.empty{grid-column:1/-1;text-align:center;padding:25px;background:white;border-radius:12px}
+#cartPanel{display:none;background:white;padding:14px;border-radius:12px;margin:15px 0}
+#cartPanel.show{display:block}
+.cartitem{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee}
+footer{text-align:center;padding:22px;color:#777}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.photo{height:200px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
-
 <body>
-<header>
-  <button class="cart" onclick="showCart()">🛒 Cart (<span id="count">0</span>)</button>
-  <div class="brand">🛍️ Mela Deals</div>
-  <div class="tag">Har din naye deals!</div>
-  <input class="search" id="search" placeholder="🔍 Product search karein..." oninput="filterProducts()">
-</header>
-
+<header><div class="top">
+<div class="logo">Mela <span style="color:#f97316">Deals</span></div>
+<button class="cartbtn" id="cartToggle">🛒 Cart (<span id="cartCount">0</span>)</button>
+</div></header>
+<main>
 <section class="hero">
-  <h1>Shopping ke best deals!</h1>
-  <p>Fashion, home aur lifestyle products ek jagah.</p>
-  <button class="primary" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now →</button>
+<h1>Har Deal, Khushi Bemisaal! 🎉</h1>
+<p>Fashion, home aur daily-use products ek jagah.</p>
 </section>
-
-<section class="section">
-  <h2>Shop by Category</h2>
-  <div class="categories">
-    <div class="category"><span>👗</span>Fashion</div>
-    <div class="category"><span>🏠</span>Home</div>
-    <div class="category"><span>💄</span>Beauty</div>
-    <div class="category"><span>🎧</span>Electronics</div>
-  </div>
-</section>
-
-<section class="section" id="shop">
-  <h2>Popular Products</h2>
-  <div class="products" id="products"></div>
-</section>
-
+<div class="searchrow">
+<input id="search" type="search" placeholder="🔎 Product search karein...">
+<button id="clear">Clear</button>
+</div>
+<h3>Categories</h3>
+<div class="categories" id="categories"></div>
 <section id="cartPanel">
-  <h2>🛒 Aapka Cart</h2>
-  <div id="cartItems"></div>
-  <h3 id="total">Total: ₹0</h3>
-  <p class="small">Online payment checkout baad mein secure payment gateway se connect kiya jayega. Abhi yeh demo cart hai; payment ya order place nahi hota.</p>
-  <button onclick="showCart()" style="background:#eee">Shopping jaari rakhein</button>
+<h3>Your Cart</h3><div id="cartItems"></div>
+<p><b>Total: ₹<span id="cartTotal">0</span></b></p>
+<small>Demo cart. Online payment abhi setup nahi hai.</small>
 </section>
-
-<footer>
-  <b>Mela Deals</b>
-  <p>Har din naye deals!</p>
-  <p>Customer Support | Shipping | Returns | Privacy</p>
-  <p>© <span id="year"></span> Mela Deals</p>
-</footer>
-
+<h3 id="productHeading">Popular Products</h3>
+<section class="grid" id="products"></section>
+</main>
+<footer>© 2026 Mela Deals</footer>
 <script>
-const productsData = [
-  {id:1,name:"Stylish Kurti",price:499,emoji:"👗"},
-  {id:2,name:"Fashion Handbag",price:399,emoji:"👜"},
-  {id:3,name:"Home Decor Set",price:299,emoji:"🏠"},
-  {id:4,name:"Wireless Earbuds",price:699,emoji:"🎧"},
-  {id:5,name:"Beauty Essentials",price:249,emoji:"💄"},
-  {id:6,name:"Casual Shoes",price:599,emoji:"👟"},
-  {id:7,name:"Wrist Watch",price:449,emoji:"⌚"},
-  {id:8,name:"Sunglasses",price:199,emoji:"🕶️"}
+const products=[
+{id:1,name:"Cotton Kurti",category:"Fashion",price:399,old:699,emoji:"👗",image:"https://images.unsplash.com/photo-1583391733958-d0c7f4b8c7a1?auto=format&fit=crop&w=600&q=80"},
+{id:2,name:"Casual Sneakers",category:"Fashion",price:599,old:999,emoji:"👟",image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"},
+{id:3,name:"Ladies Handbag",category:"Fashion",price:449,old:799,emoji:"👜",image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=600&q=80"},
+{id:4,name:"Wireless Headphones",category:"Electronics",price:799,old:1299,emoji:"🎧",image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"},
+{id:5,name:"Smart Watch",category:"Electronics",price:999,old:1599,emoji:"⌚",image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80"},
+{id:6,name:"Water Bottle",category:"Home",price:199,old:299,emoji:"🧴",image:"https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80"},
+{id:7,name:"Table Lamp",category:"Home",price:549,old:899,emoji:"💡",image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=600&q=80"},
+{id:8,name:"Skincare Set",category:"Beauty",price:349,old:599,emoji:"🧴",image:"https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=600&q=80"},
+{id:9,name:"Sunglasses",category:"Accessories",price:249,old:499,emoji:"🕶️",image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80"},
+{id:10,name:"Cushion Covers",category:"Home",price:299,old:499,emoji:"🛋️",image:"https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=600&q=80"},
+{id:11,name:"Makeup Brush Set",category:"Beauty",price:229,old:399,emoji:"💄",image:"https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80"},
+{id:12,name:"Backpack",category:"Accessories",price:499,old:799,emoji:"🎒",image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80"}
 ];
-
-let cart = [];
-
-function renderProducts(items=productsData){
-  const area=document.getElementById("products");
-  area.innerHTML="";
-
-  items.forEach(p=>{
-    area.innerHTML+=`
-      <article class="product">
-        <div class="photo">${p.emoji}</div>
-        <h3>${p.name}</h3>
-        <div class="price">₹${p.price}</div>
-        <button class="add" onclick="addToCart(${p.id})">Add to Cart</button>
-      </article>`;
-  });
-
-  if(!items.length){
-    area.innerHTML="<p>Koi product nahi mila.</p>";
-  }
+let activeCategory="All",cart=[];
+const search=document.getElementById("search");
+const productArea=document.getElementById("products");
+function renderCategories(){
+const cats=["All",...new Set(products.map(p=>p.category))];
+const area=document.getElementById("categories");area.innerHTML="";
+cats.forEach(cat=>{
+const b=document.createElement("button");
+b.className="cat"+(activeCategory===cat?" active":"");
+b.textContent=cat==="All"?"✨ All":cat;
+b.onclick=()=>{activeCategory=cat;renderCategories();renderProducts()};
+area.appendChild(b);
+});
 }
-
+function renderProducts(){
+const q=search.value.trim().toLowerCase();
+const list=products.filter(p=>(activeCategory==="All"||p.category===activeCategory)&&(`${p.name} ${p.category}`.toLowerCase().includes(q)));
+document.getElementById("productHeading").textContent=q?`Search Results (${list.length})`:activeCategory==="All"?"Popular Products":activeCategory+" Products";
+productArea.innerHTML="";
+if(!list.length){productArea.innerHTML='<div class="empty">Product nahi mila. Dusra naam try karein.</div>';return}
+list.forEach(p=>{
+const card=document.createElement("article");card.className="card";
+const photo=document.createElement("div");photo.className="photo";
+const img=document.createElement("img");img.src=p.image;img.alt=p.name;img.loading="lazy";
+img.onerror=()=>{photo.innerHTML='<span class="fallback">'+p.emoji+'</span>'};
+photo.appendChild(img);
+const info=document.createElement("div");info.className="info";
+const name=document.createElement("div");name.className="name";name.textContent=p.name;
+const cat=document.createElement("div");cat.className="category";cat.textContent=p.category;
+const prices=document.createElement("div");prices.innerHTML='<span class="price">₹'+p.price+'</span> <span class="old">₹'+p.old+'</span>';
+const add=document.createElement("button");add.className="add";add.textContent="+ Add to Cart";
+add.onclick=()=>addToCart(p.id);
+info.append(name,cat,prices,add);card.append(photo,info);productArea.appendChild(card);
+});
+}
 function addToCart(id){
-  const product=productsData.find(p=>p.id===id);
-  const existing=cart.find(p=>p.id===id);
-
-  if(existing) existing.qty++;
-  else cart.push({...product,qty:1});
-
-  updateCart();
+const p=products.find(x=>x.id===id),item=cart.find(x=>x.id===id);
+if(item)item.qty++;else cart.push({...p,qty:1});
+renderCart();
 }
-
-function updateCart(){
-  document.getElementById("count").textContent=
-    cart.reduce((sum,p)=>sum+p.qty,0);
-
-  const area=document.getElementById("cartItems");
-  area.innerHTML="";
-
-  cart.forEach(p=>{
-    area.innerHTML+=`
-      <p>${p.emoji} ${p.name} × ${p.qty}
-      — ₹${p.price*p.qty}
-      <button onclick="removeItem(${p.id})">Remove</button></p>`;
-  });
-
-  const total=cart.reduce((sum,p)=>sum+p.price*p.qty,0);
-  document.getElementById("total").textContent="Total: ₹"+total;
+function renderCart(){
+document.getElementById("cartCount").textContent=cart.reduce((s,p)=>s+p.qty,0);
+document.getElementById("cartTotal").textContent=cart.reduce((s,p)=>s+p.price*p.qty,0);
+const area=document.getElementById("cartItems");area.innerHTML="";
+if(!cart.length){area.textContent="Cart khaali hai.";return}
+cart.forEach(p=>{
+const row=document.createElement("div");row.className="cartitem";
+const n=document.createElement("span");n.textContent=p.emoji+" "+p.name+" × "+p.qty;
+const price=document.createElement("b");price.textContent="₹"+p.price*p.qty;
+row.append(n,price);area.appendChild(row);
+});
 }
-
-function removeItem(id){
-  cart=cart.filter(p=>p.id!==id);
-  updateCart();
-}
-
-function showCart(){
-  const panel=document.getElementById("cartPanel");
-  panel.style.display=panel.style.display==="block"?"none":"block";
-  updateCart();
-
-  if(panel.style.display==="block"){
-    panel.scrollIntoView({behavior:"smooth"});
-  }
-}
-
-function filterProducts(){
-  const query=document.getElementById("search").value.toLowerCase();
-  renderProducts(productsData.filter(p=>p.name.toLowerCase().includes(query)));
-}
-
-document.getElementById("year").textContent=new Date().getFullYear();
-renderProducts();
+search.addEventListener("input",renderProducts);
+document.getElementById("clear").onclick=()=>{search.value="";activeCategory="All";renderCategories();renderProducts()};
+document.getElementById("cartToggle").onclick=()=>document.getElementById("cartPanel").classList.toggle("show");
+renderCategories();renderProducts();renderCart();
 </script>
 </body>
 </html>
